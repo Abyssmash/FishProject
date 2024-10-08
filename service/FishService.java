@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.FishDAO;
@@ -23,6 +24,8 @@ public class FishService {
 			in.nextLine();
 			if(num==1) {
 				add();
+			}else if(num==3) {
+				search();
 			}else if(num==4) {
 				list();
 			}else if(num==6) {
@@ -49,10 +52,21 @@ public class FishService {
 		
 	}
 	private void search() {
-		
+		Scanner in = new Scanner(System.in);
+		System.out.println("검색할 아이디를 입력하세요.");
+		String findId = in.nextLine();
+		FishDTO f = fishdao.selectOne(findId);
+		if(f != null) {
+			System.out.println(f.toString());
+		}
 	}
 	private void list() {
-		
+		ArrayList <FishDTO> f = fishdao.selectAll();
+		// DB에 저장된 정보를 모두 출력
+		System.out.println(f.size()+" 마리의 물고기가 있습니다.");
+		for(FishDTO tempf : f) {
+			System.out.println(tempf.toString());
+		}
 	}
 	private void update() {
 		
