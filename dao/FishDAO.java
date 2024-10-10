@@ -12,14 +12,21 @@ import dto.FishDTO;
 
 public class FishDAO {
 
-	private String username="root";
+	private String username="system";
 	private String password="11111111";
 	private String url="jdbc:oracle:thin:@localhost:1521:orcl";
 	private String driverName="oracle.jdbc.driver.OracleDriver";
-	private Connection conn=null;
+	private Connection conn=null;	// 커넥션 자원 변수
+	public static FishDAO fishdao = null;
 	
 	public FishDAO(){
 		init();
+	}
+	public static FishDAO getInstance() {
+		if(fishdao == null) {
+			fishdao = FishDAO();
+		}
+		return fishdao;
 	}
 	private void init() {	// 드라이버 로드
 		try {
@@ -87,6 +94,40 @@ public class FishDAO {
 				// finally에 conn 자원 반납코드 추가
 			}
 			return null;
+		}
+	}
+	public void delete(String delId) {
+		if(conn()) {
+			try {
+				String sql = "delete from fishdata where id=?";
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(1, delId);
+				psmt.executeUpdate();
+			}catch(Exception e) {
+				// TODO: handle exception
+			}finally {
+				try {
+					if(conn !=null) conn.close();
+				}catch(Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		}
+	}
+	public void update(FishDTO fdto) {
+		if(conn()) {
+			try {
+				String sql ="update fishdata set pwd=? where id=?";
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(1, fdto.getPwd());
+				psmt.setString(2, fdto.getId());
+				psmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			} finally {
+				//각자 채워 주시길
+			}
+			
 		}
 	}
 	public void add(FishDTO fdto) { // Mapping

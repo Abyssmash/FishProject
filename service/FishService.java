@@ -24,10 +24,14 @@ public class FishService {
 			in.nextLine();
 			if(num==1) {
 				add();
+			}else if(num==2) {
+				del();
 			}else if(num==3) {
 				search();
 			}else if(num==4) {
 				list();
+			}else if(num==5) {
+				update();
 			}else if(num==6) {
 				break;
 			}
@@ -49,7 +53,7 @@ public class FishService {
 		fishdao.add(fishdto);
 	}
 	private void del() {
-		
+		Scanner in = new Scanner(System.in);
 	}
 	private void search() {
 		Scanner in = new Scanner(System.in);
